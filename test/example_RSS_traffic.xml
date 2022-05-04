@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <atom:link href="http://www.ci.austin.tx.us/qact/qact_rss.cfm" rel="self" type="application/rss+xml" />
+        <title>Austin-Travis County Traffic Report Page</title>
+        <link>http://www.ci.austin.tx.us/qact/default.cfm</link>
+        <description>This page provides information on active traffic related incidents reported to the Austin Police, Aviation Police, and Travis County Sheriff. Information is updated every 5 minutes.</description>
+        <lastBuildDate>Tue, 03 May 2022 09:10:17 GMT</lastBuildDate>
+        <copyright>2022 City of Austin. All rights reserved.</copyright>
+        <language>en-us</language>
+        <item>
+            <title>24800-BLK HAMILTON POOL RD - TRFC HAZD/ DEBRIS </title>
+            <link>http://www.ci.austin.tx.us/qact/default.cfm</link>
+            <guid isPermaLink="false">88C79C1DC9D13B2B592B9057730DF504809A43C1</guid>
+            <description>STAGECOACH RANCH RD/CAMINO BARRANCA | 30.335881 | -98.140379 | TRFC HAZD/ DEBRIS | Tue, 03 May 2022 02:00:18 GMT</description>
+            <pubDate>Tue, 03 May 2022 02:00:18 GMT</pubDate>
+        </item>
+        <item>
+            <title>W 20TH ST / GUADALUPE ST - Crash Urgent </title>
+            <link>http://www.ci.austin.tx.us/qact/default.cfm</link>
+            <guid isPermaLink="false">0DE1F0466A1DDBB39B3249511CD3FE60BE0D4D6C</guid>
+            <description> | 30.282642 | -97.741991 | Crash Urgent | Tue, 03 May 2022 06:36:21 GMT</description>
+            <pubDate>Tue, 03 May 2022 06:36:21 GMT</pubDate>
+        </item>
+    </channel>
+</rss>
