@@ -22,5 +22,5 @@ class TestPulsarProducers(unittest.TestCase):
         cwd = os.getcwd()
         df = Utils.loadData(cwd + "/test/incident_sample.csv",  'TrafficReportID')
         bp.produceData(pulsarProducerMock, df)
-        assert pulsarProducerMock.call_count == 3
+        assert len(pulsarProducerMock.mock_calls) == 3
         print(pulsarProducerMock.call_args)
