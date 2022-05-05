@@ -3,6 +3,7 @@ import pandas as pd
 import pulsar
 from pulsar.schema import *
 import logging
+import os
 
 from src.common.incident import Incident
 from src.common.utils import Utils
@@ -24,7 +25,8 @@ class BulkProducerObj:
             pulsarProducer.send(incident)
 
     def main(self):
-        df = Utils.loadData('Real-Time_Traffic_Incident_Reports.csv', 'TrafficReportID')
+        cwd = os.getcwd()
+        df = Utils.loadData(cwd + '/src/producers/BulkProducer/Real-Time_Traffic_Incident_Reports.csv', 'TrafficReportID')
         try:
             client = Utils.setupPulsarClient(self.serviceUrl, self.myToken)
             producer = client.create_producer(topic=self.myTopic, schema=AvroSchema(Incident))

@@ -15,6 +15,7 @@ class Utils:
         return client
     @staticmethod
     def loadData(fileName, indexCol):
+        print("filename is: " + fileName)
         df = pd.read_csv(fileName)
         df = df.set_index([indexCol])
         df = df.reset_index()
