@@ -6,3 +6,9 @@ For production, we should:
 4. Evaluate race conditions in Astra DB when writing with parallelism > 1
 5. Use async Pulsar producer
 6. Handle intermittent failures to produce
+7. Refactor producers to common layer to reduce code duplication
+8. Decide how to better handle incomplete records
+
+Homework for Contoso corp:
+1. Add missing fields to RSS feed
+2. Create new feed with resolutions so we can update those in real time

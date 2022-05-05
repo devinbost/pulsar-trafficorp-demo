@@ -2,10 +2,14 @@
 import unittest
 from unittest.mock import MagicMock, Mock
 from unittest.mock import ANY
+from src.common.incident import Incident
 from src.producers.BulkProducer import BulkProducer
 from src.common.utils import Utils
 import os
+import feedparser
 import pulsar
+
+from src.producers.RSSFeedProducer import RSSFeedProducer
 # from [directory].producers import RSSProducer?
 
 # Mock pulsar.produce
@@ -14,13 +18,13 @@ import pulsar
 
 # Test: BulkProducer.produceData(pulsarProducer, dataframe)
     # Mock: pulsarProducer.send(incident)
-class TestPulsarProducers(unittest.TestCase):
+class TestBulkPulsarProducer(unittest.TestCase):
 
     def test_createObjects(self):
         pulsarProducerMock = Mock()
         sideEffect = lambda value: print(value)
         pulsarProducerMock.send = Mock(return_value=None, side_effect=sideEffect)
-        bp = BulkProducer.BulkProducerObj('example', 'example')
+        bp = BulkProducer.PulsarBulkProducer('example', 'example')
         cwd = os.getcwd()
         df = Utils.loadData(cwd + "/test/incident_sample.csv",  'TrafficReportID')
         bp.produceData(pulsarProducerMock, df)
@@ -58,7 +62,7 @@ class TestPulsarProducers(unittest.TestCase):
     def test_astraConnectionWithSchema(self):
         service_url = 'pulsar+ssl://pulsar-gcp-uscentral1.streaming.datastax.com:6651'
         token = os.getenv('ASTRA_TOKEN_TEST_SCHEMA')
-        bp = BulkProducer.BulkProducerObj(ANY, ANY)
+        bp = BulkProducer.PulsarBulkProducer(ANY, ANY)
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
@@ -74,12 +78,38 @@ class TestPulsarProducers(unittest.TestCase):
         service_url = 'pulsar+ssl://pulsar-gcp-uscentral1.streaming.datastax.com:6651'
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
-        bp = BulkProducer.BulkProducerObj('persistent://austin/ingest/traffic-backfill', service_url)
-        bp.main('ASTRA_TOKEN_TEST_BULKLOAD', bp.getSchema)
+        bp = BulkProducer.PulsarBulkProducer('persistent://austin/ingest/traffic-backfill', service_url)
+        bp.main('ASTRA_TOKEN_TEST_BULKLOAD', Incident.getIncidentSchema)
     
-    def test_bulkTrafficDataNoSchema(self):
+
+class TestRSSPulsarProducer(unittest.TestCase):
+    def test_parseFeed(self):
+        url = 'https://www.austintexas.gov/qact/qact_rss.cfm'
+        feed = feedparser.parse(url)
+        feedEntries = feed.entries
+        for entry in feedEntries:
+            publishedDate = entry["published"]
+            title = entry["title"]
+            splitDetails = entry["summary"].split('|')
+            details = [x.strip() for x in splitDetails if not splitDetails == '']
+            if len(details) < 5:
+                print("WARNING: Skipping incomplete record")
+                continue
+            address = details[0]
+            latitude = details[1]
+            longitude = details[2]
+            issueReported = details[3]
+            status = "NULL"
+            statusDate = "NULL"
+            incident = Incident(publishedDate, issueReported, latitude, longitude, address, status, statusDate, title)
+            
+            print(details)
+            #test = entry[]
+        print(feed)
+    
+    def test_RSSFeedProducer(self):
         service_url = 'pulsar+ssl://pulsar-gcp-uscentral1.streaming.datastax.com:6651'
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
-        bp = BulkProducer.BulkProducerObj('persistent://austin/ingest/traffic-backfill', service_url)
-        bp.main('ASTRA_TOKEN_TEST_BULKLOAD')
+        rssProducer = RSSFeedProducer.PulsarRssFeedProducer('persistent://contoso-corp/default/testme', service_url)
+        rssProducer.main('ASTRA_TOKEN_TEST_SIMPLE', 1.0, 10.0)
