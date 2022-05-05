@@ -31,7 +31,7 @@ class BulkProducerObj:
             client = Utils.setupPulsarClient(self.serviceUrl, self.myToken)
             producer = client.create_producer(topic=self.myTopic, schema=AvroSchema(Incident))
         except Exception:
-            self.logger.exception("Unable to connect to Pulsar topic: {} at serviceUrl: {} ".format(myTopic, serviceUrl))
+            self.logger.exception("Unable to connect to Pulsar topic: {} at serviceUrl: {} ".format(self.myTopic, self.serviceUrl))
         self.logger.info("Producer connected")
 
         self.produceData(producer, df)
