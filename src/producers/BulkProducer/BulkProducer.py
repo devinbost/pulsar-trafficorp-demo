@@ -41,14 +41,14 @@ class BulkProducerObj:
     def getSchema(self):
         return AvroSchema(Incident)
 
-    def main(self, tokenName):
+    def main(self, tokenName, getSchemaMethod):
         cwd = os.getcwd()
         df = Utils.loadData(cwd + '/src/producers/BulkProducer/Real-Time_Traffic_Incident_Reports.csv', 'TrafficReportID')
         try:
             token = Utils.getToken(tokenName)
             client = Utils.setupPulsarClient(self.serviceUrl, token)
             producer = client.create_producer(topic=self.myTopic, 
-                schema=AvroSchema(Incident),
+                schema=getSchemaMethod(),
                 batching_enabled=True,
                 batching_max_publish_delay_ms=300) # Increasing batch size to improve throughput
             

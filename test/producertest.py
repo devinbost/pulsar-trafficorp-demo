@@ -75,4 +75,11 @@ class TestPulsarProducers(unittest.TestCase):
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
         bp = BulkProducer.BulkProducerObj('persistent://austin/ingest/traffic-backfill', service_url)
+        bp.main('ASTRA_TOKEN_TEST_BULKLOAD', bp.getSchema)
+    
+    def test_bulkTrafficDataNoSchema(self):
+        service_url = 'pulsar+ssl://pulsar-gcp-uscentral1.streaming.datastax.com:6651'
+        # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
+        
+        bp = BulkProducer.BulkProducerObj('persistent://austin/ingest/traffic-backfill', service_url)
         bp.main('ASTRA_TOKEN_TEST_BULKLOAD')
