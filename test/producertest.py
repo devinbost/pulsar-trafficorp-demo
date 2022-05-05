@@ -66,7 +66,7 @@ class TestBulkPulsarProducer(unittest.TestCase):
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
-        mySchema = bp.getSchema()
+        mySchema = Incident.getIncidentSchema()
         producer = client.create_producer('persistent://contoso-corp/default/testme-schema', schema=mySchema)
         cwd = os.getcwd()
         df = Utils.loadData(cwd + "/test/incident_sample.csv",  'TrafficReportID')

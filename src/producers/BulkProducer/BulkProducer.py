@@ -30,6 +30,7 @@ class PulsarBulkProducer:
                 pulsarProducer.send_async(incident, callback=self.send_callback)
             except TypeError as err:
                 print("TypeError for row: {}. Error is: {}".format(row, err))
+                raise
         pulsarProducer.flush()
     
     def send_callback(self, res, msg):
@@ -48,6 +49,7 @@ class PulsarBulkProducer:
             
         except Exception:
             self.logger.exception("Unable to connect to Pulsar topic: {} at serviceUrl: {} ".format(self.myTopic, self.serviceUrl))
+            raise
         self.logger.info("Producer connected")
 
         self.produceDataAsync(producer, df)
