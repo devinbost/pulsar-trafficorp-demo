@@ -1,12 +1,18 @@
 
 import pulsar
 import pandas as pd
+import os
 class Utils:
+
+    @staticmethod
+    def getToken(tokenName):
+        token = os.getenv(tokenName)
+        return token
 
     @staticmethod
     def getTokenFromGCP(tokenKey):
         # Do something
-        return ""
+        Exception("Not implemented exception:  Utils.getTokenFromGCP(tokenKey)")
 
     @staticmethod
     def setupPulsarClient(serviceUrl, token):
