@@ -3,13 +3,13 @@ from pulsar.schema import *
 import hashlib
 
 class Incident(Record):
-    _avro_namespace = 'consoto.traffic.incident'
+    _avro_namespace = 'com.trafficcorp.example.demofunctions.function'
     TrafficReportID = String()
     PublishedDate = String()
     IssueReported = String()
     Location = String()
-    Latitude = Float()
-    Longitude = Float()
+    Latitude = Float(required=True)
+    Longitude = Float(required=True)
     Address = String()
     Status = String()
     StatusDate = String()

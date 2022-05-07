@@ -7,7 +7,7 @@ For production, we should:
 5. Use async Pulsar producer
 6. Handle intermittent failures to produce
 7. Refactor producers to common layer to reduce code duplication
-8. Decide how to better handle incomplete records
+8. Decide how to better handle incomplete records and introduce OOP
 
 Homework for Contoso corp:
 1. Add missing fields to RSS feed
