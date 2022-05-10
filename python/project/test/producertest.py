@@ -31,7 +31,7 @@ class TestBulkPulsarProducer(unittest.TestCase):
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
 
-        producer = client.create_producer('persistent://traffic-corp/default/testme')
+        producer = client.create_producer('persistent://mytenant/default/mytopic')
 
         for i in range(10):
             producer.send(('Hello World! %d' % i).encode('utf-8'))
@@ -45,7 +45,7 @@ class TestBulkPulsarProducer(unittest.TestCase):
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
 
-        producer = client.create_producer('persistent://traffic-corp/default/testme')
+        producer = client.create_producer('persistent://austin/default/testme')
 
         for i in range(10):
             producer.send(('Hello World! %d' % i).encode('utf-8'))
@@ -60,7 +60,7 @@ class TestBulkPulsarProducer(unittest.TestCase):
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
         mySchema = Incident.getIncidentSchema()
-        producer = client.create_producer('persistent://traffic-corp/default/testme-schema', schema=mySchema)
+        producer = client.create_producer('persistent://austin/ingest/traffic-test', schema=mySchema)
         cwd = os.getcwd()
         df = Utils.loadData(cwd + "/project/test/incident_sample.csv",  'TrafficReportID')
         bp.produceData(producer, df)
@@ -71,7 +71,7 @@ class TestBulkPulsarProducer(unittest.TestCase):
         service_url = 'pulsar+ssl://pulsar-aws-useast1.streaming.datastax.com:6651'
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
-        bp = BulkProducer.PulsarBulkProducer('persistent://traffic-corp/default/traffic-backfill-schema', service_url)
+        bp = BulkProducer.PulsarBulkProducer('persistent://austin/ingest/traffic-backfill', service_url)
         bp.main('ASTRA_TOKEN_TEST_BULKLOAD', Incident.getIncidentSchema)
     
 
@@ -104,7 +104,7 @@ class TestRSSPulsarProducer(unittest.TestCase):
         service_url = 'pulsar+ssl://pulsar-aws-useast1.streaming.datastax.com:6651'
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
-        rssProducer = RSSFeedProducer.PulsarRssFeedProducer('persistent://traffic-corp/default/testme', service_url)
+        rssProducer = RSSFeedProducer.PulsarRssFeedProducer('persistent://austin/ingest/traffic-rss', service_url)
         rssProducer.main('ASTRA_TOKEN_TEST_SIMPLE', 1.0, 10.0)
 
 class TestBulkPulsarJsonProducer(unittest.TestCase):
@@ -126,7 +126,7 @@ class TestBulkPulsarJsonProducer(unittest.TestCase):
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
 
-        producer = client.create_producer('persistent://traffic-corp/default/testme')
+        producer = client.create_producer('persistent://austin/default/testme')
 
         for i in range(10):
             producer.send(('Hello World! %d' % i).encode('utf-8'))
@@ -140,7 +140,7 @@ class TestBulkPulsarJsonProducer(unittest.TestCase):
         client = pulsar.Client(service_url,
                                 authentication=pulsar.AuthenticationToken(token))
 
-        producer = client.create_producer('persistent://traffic-corp/default/testme')
+        producer = client.create_producer('persistent://austin/default/testme')
 
         for i in range(10):
             producer.send(('Hello World! %d' % i).encode('utf-8'))
@@ -151,7 +151,7 @@ class TestBulkPulsarJsonProducer(unittest.TestCase):
         service_url = 'pulsar+ssl://pulsar-aws-useast1.streaming.datastax.com:6651'
         # Note: To setup env vars, create .env file in root project dir. That's where it gets picked up.
         
-        bp = BulkProducer.PulsarBulkJsonProducer('persistent://traffic-corp/default/traffic-backfill-json', service_url)
+        bp = BulkProducer.PulsarBulkJsonProducer('persistent://austin/default/traffic-backfill-json', service_url)
         bp.main('ASTRA_TOKEN_TEST_BULKLOAD')
 
 class TestAstraDBSetup(unittest.TestCase):

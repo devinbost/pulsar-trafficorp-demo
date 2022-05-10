@@ -4,8 +4,7 @@ import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
 public class IncidentPassthrough implements Function<Incident, Incident> {
-
-
+    
     public IncidentPassthrough() {
         
     }

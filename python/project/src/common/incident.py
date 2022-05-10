@@ -30,4 +30,4 @@ class Incident(Record):
     
     @staticmethod
     def getIncidentSchema():
-        return AvroSchema(Incident)
+        return JsonSchema(Incident)
